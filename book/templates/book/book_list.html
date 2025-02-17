@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách sách</title>
+</head>
+
+<body>
+    <h1>Danh sách sách</h1>
+    <ul>
+        {% for book in books %}
+        <li>
+            <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a> - {{ book.author }} - {{ book.price }} VNĐ
+        </li>
+        {% empty %}
+        <li>Không có sách nào.</li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

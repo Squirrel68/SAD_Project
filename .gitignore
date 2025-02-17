@@ -1,0 +1,45 @@
+# Bỏ qua thư mục môi trường ảo (Virtual Environment)
+venv/
+env/
+*.venv/
+*.env/
+
+# Bỏ qua các file liên quan đến Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.log
+
+# Bỏ qua file cấu hình của IDE
+.vscode/
+.idea/
+*.iml
+
+# Bỏ qua file database SQLite
+db.sqlite3
+*.sqlite3
+
+# Bỏ qua các file cache của Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+local_settings.py
+.env
+.env.example
+
+# Bỏ qua các thư mục tạo bởi hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Bỏ qua file debug, media, static
+static/
+media/
+node_modules/
+
+# Bỏ qua file của Docker (nếu có dùng)
+*.dockerfile
+docker-compose.yml
