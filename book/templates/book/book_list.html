@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html lang="vi">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danh sách sách</title>
-</head>
+{% block title %}Danh sách sách{% endblock %}
 
-<body>
-    <h1>Danh sách sách</h1>
-    <ul>
-        {% for book in books %}
-        <li>
-            <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a> - {{ book.author }} - {{ book.price }} VNĐ
-        </li>
-        {% empty %}
-        <li>Không có sách nào.</li>
-        {% endfor %}
-    </ul>
-</body>
-
-</html>
+{% block content %}
+<h2>Danh sách sách</h2>
+<ul>
+    {% for book in books %}
+    <li>
+        <img src="{{ book.image.url }}" alt="{{ book.title }}" width="100">
+        <a href="{% url 'book:book_detail' book.id %}">{{ book.title }}</a> - {{ book.price }} VNĐ
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

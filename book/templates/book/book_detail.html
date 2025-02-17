@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="vi">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết sách</title>
-</head>
+{% block title %}{{ book.title }}{% endblock %}
 
-<body>
-    <h1>{{ book.title }}</h1>
-    <p><strong>Tác giả:</strong> {{ book.author }}</p>
-    <p><strong>Giá:</strong> {{ book.price }} VNĐ</p>
-    <p><strong>Số lượng còn:</strong> {{ book.stock }}</p>
-    <a href="{% url 'book-list' %}">Quay lại danh sách</a>
-</body>
-
-</html>
+{% block content %}
+<h2>{{ book.title }}</h2>
+<img src="{{ book.image.url }}" alt="{{ book.title }}" width="200">
+<p>Giá: {{ book.price }} VNĐ</p>
+<p>{{ book.description }}</p>
+<a href="{% url 'cart:add_to_cart' book.id %}"><button>Thêm vào giỏ hàng</button></a>
+<a href="{% url 'book:book_list' %}"><button>Quay lại</button></a>
+{% endblock %}
