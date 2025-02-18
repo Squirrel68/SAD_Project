@@ -3,33 +3,40 @@
 {% block title %}Giỏ hàng{% endblock %}
 
 {% block content %}
-<h2>Giỏ hàng</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Giỏ hàng</h2>
 
-{% if cart_items %}
-<table border="1">
-    <tr>
-        <th>Sách</th>
-        <th>Số lượng</th>
-        <th>Giá</th>
-        <th>Thao tác</th>
-    </tr>
-    {% for item in cart_items %}
-    <tr>
-        <td>{{ item.book.title }}</td>
-        <td>
-            <form method="POST" action="{% url 'cart:update_cart' item.book.id %}">
-                {% csrf_token %}
-                <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-                <button type="submit">Cập nhật</button>
-            </form>
-        </td>
-        <td>{{ item.book.price }} VNĐ</td>
-        <td><a href="{% url 'cart:remove_from_cart' item.book.id %}">Xóa</a></td>
-    </tr>
-    {% endfor %}
-</table>
-<p><strong>Tổng tiền: </strong>{{ total_price }} VNĐ</p>
-{% else %}
-<p>Giỏ hàng trống.</p>
-{% endif %}
+    {% if cart_items %}
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Sách</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.book.title }}</td>
+                <td>
+                    <form method="POST" action="{% url 'cart:update_cart' item.book.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1"
+                            class="form-control d-inline-block w-auto">
+                        <button type="submit" class="btn btn-primary btn-sm">Cập nhật</button>
+                    </form>
+                </td>
+                <td>{{ item.book.price }} VNĐ</td>
+                <td><a href="{% url 'cart:remove_from_cart' item.book.id %}" class="btn btn-danger btn-sm">Xóa</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <p><strong>Tổng tiền: </strong>{{ total_price }} VNĐ</p>
+    {% else %}
+    <p>Giỏ hàng trống.</p>
+    {% endif %}
+</div>
 {% endblock %}
