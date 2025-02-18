@@ -1,9 +1,16 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>Hồ sơ của bạn</h2>
-<p><strong>Username:</strong> {{ user.username }}</p>
-<p><strong>Email:</strong> {{ user.email }}</p>
-<p><strong>Phone:</strong> {{ customer.phone }}</p>
-<p><strong>Address:</strong> {{ customer.address }}</p>
-<a href="{% url 'customer:logout' %}">Đăng xuất</a>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="p-4 shadow rounded" style="background: #f8f9fa; max-width: 400px; width: 100%;">
+        <h2 class="text-center mb-4">Hồ sơ của bạn</h2>
+        <div class="mb-3">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone:</strong> {{ customer.phone }}</p>
+            <p><strong>Address:</strong> {{ customer.address }}</p>
+        </div>
+        <a href="{% url 'customer:logout' %}" class="btn btn-danger w-100">Đăng xuất</a>
+    </div>
+</div>
 {% endblock %}
