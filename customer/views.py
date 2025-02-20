@@ -1,41 +1,42 @@
-from django.shortcuts import render, redirect
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import login, logout, authenticate
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from .forms import RegisterForm
+from django.contrib.auth.models import User
 from .models import Customer
+from .serializers import UserSerializer, CustomerSerializer, RegisterSerializer
 
-def register_view(request):
-    if request.method == "POST":
-        form = RegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save()
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
             login(request, user)
-            messages.success(request, "Đăng ký thành công!")
-            return redirect("customer:profile")
-    else:
-        form = RegisterForm()
-    return render(request, "customer/register.html", {"form": form})
+            return Response({"message": "Đăng ký thành công!"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-def login_view(request):
-    if request.method == "POST":
-        username = request.POST["username"]
-        password = request.POST["password"]
+class LoginView(APIView):
+    def post(self, request):
+        username = request.data.get("username")
+        password = request.data.get("password")
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
-            messages.success(request, "Đăng nhập thành công!")
-            return redirect("customer:profile")
-        else:
-            messages.error(request, "Sai thông tin đăng nhập!")
-    return render(request, "customer/login.html")
+            return Response({"message": "Đăng nhập thành công!"})
+        return Response({"error": "Sai thông tin đăng nhập!"}, status=status.HTTP_400_BAD_REQUEST)
 
-def logout_view(request):
-    logout(request)
-    messages.success(request, "Đăng xuất thành công!")
-    return redirect("customer:login")
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
-@login_required
-def profile_view(request):
-    customer = Customer.objects.get(user=request.user)
-    return render(request, "customer/profile.html", {"user": request.user, "customer": customer})
+    def post(self, request):
+        logout(request)
+        return Response({"message": "Đăng xuất thành công!"}, status=status.HTTP_200_OK)
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        customer = Customer.objects.get(user=request.user)
+        serializer = CustomerSerializer(customer)
+        return Response(serializer.data)
